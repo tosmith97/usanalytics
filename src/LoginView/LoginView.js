@@ -7,7 +7,8 @@ import {
   FormGroup,
   Input,
 } from 'reactstrap';
-import { HashLink as Link } from 'react-router-hash-link';
+import { Link, withRouter } from 'react-router-dom';
+import Helmet from 'react-helmet';
 import { SimpleFormPageComponent } from '../Components/SimpleFormPageComponent/SimpleFormPageComponent';
 import './login-view.css';
 
@@ -21,14 +22,20 @@ export default class LoginView extends Component {
     }
   }
 
-  login = (event) => {
-    // turn off react default behavior
-    event.preventDefault();
+  _onClick = () => {
+    this.props.history.push('profile');
   }
+
 
   render() {
     return (
       <SimpleFormPageComponent pageTitle="Log In">
+        <Helmet
+          title="Login Page"
+          meta={[
+            { name: 'description', content: 'Description of LoginPage' },
+          ]}
+        />
         <h2> Log In </h2>
         <Form onSubmit={this.login} className="login-form-container">
           <FormGroup row>
@@ -45,10 +52,7 @@ export default class LoginView extends Component {
             <Col xs="12">
             </Col>
           </Row>
-          <Button block color="primary" type="submit"> Log In </Button>
-
-          <h6 className="login-button-divider"> or </h6>
-          <Button color="success" block> Sign Up </Button>
+          <Button block color="primary" type="submit" onClick={this._onClick}> Log In </Button>
         </Form>
       </SimpleFormPageComponent>
     );
