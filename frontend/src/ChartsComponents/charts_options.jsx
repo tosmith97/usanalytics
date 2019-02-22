@@ -20,7 +20,6 @@ let base_options = {
   scales: {
     yAxes: [
       {
-        barPercentage: 1.6,
         gridLines: {
           drawBorder: false,
           color: null, // this changes
@@ -36,7 +35,6 @@ let base_options = {
     ],
     xAxes: [
       {
-        barPercentage: 1.2,
         gridLines: {
           drawBorder: false,
           color: null, // Another Color
@@ -72,7 +70,7 @@ export function GetGraphOptions(type, color) {
   new_options["scales"]["xAxes"][0]["ticks"]["fontColor"] = tick;
 
   if (type == "line"){
-    new_options["scales"]["xAxes"][0]["barPercentage"] = 1.2
+    new_options["scales"]["xAxes"][0]["barPercentage"] = 1.6
     new_options["scales"]["yAxes"][0]["barPercentage"] = 1.6
     new_options["scales"]["yAxes"][0]["gridLines"]["color"] = "rgba(29,140,248,0.0)";
   }
