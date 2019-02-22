@@ -4,6 +4,8 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 import Routes from './routes';
 
+import "./assets/scss/black-dashboard-react.scss";
+import "./assets/css/nucleo-icons.css";
 
 ReactDOM.render(
             <div>

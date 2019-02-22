@@ -9,7 +9,7 @@ import {
 } from 'reactstrap';
 import { Link, withRouter } from 'react-router-dom';
 import Helmet from 'react-helmet';
-import { SimpleFormPageComponent } from '../Components/SimpleFormPageComponent/SimpleFormPageComponent';
+import { SimpleFormPageComponent } from '../components/SimpleFormPageComponent/SimpleFormPageComponent';
 import './login-view.css';
 
 export default class LoginView extends Component {
@@ -23,7 +23,7 @@ export default class LoginView extends Component {
   }
 
   _onClick = () => {
-    this.props.history.push('profile');
+    this.props.history.push('admin/dashboard');
   }
 
 
@@ -31,7 +31,7 @@ export default class LoginView extends Component {
     return (
       <SimpleFormPageComponent pageTitle="Log In">
         <Helmet
-          title="Login Page"
+          title="California Analytics Login"
           meta={[
             { name: 'description', content: 'Description of LoginPage' },
           ]}
