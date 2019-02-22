@@ -46,48 +46,5 @@ export function DataWrapper(dataX, dataY, color) {
     };
   }
 
-
-
-
-
-
-
-
-  // let data =  canvas => {
-  //   let ctx = canvas.getContext("2d");
-  //
-  //   let gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
-  //
-  //   // gradientStroke.addColorStop(1, line_color + ",0.2)"); // this changes
-  //   // gradientStroke.addColorStop(0.4, line_color + ",0.0)"); // this changes
-  //   // gradientStroke.addColorStop(0, line_color + ",0)"); //this changes
-  //
-  //   gradientStroke.addColorStop(1, "rgba(29,140,248,0.2)");
-  //   gradientStroke.addColorStop(0.4, "rgba(29,140,248,0.0)");
-  //   gradientStroke.addColorStop(0, "rgba(29,140,248,0)"); //blue colors
-  //   return {
-  //     labels: dataY,
-  //     datasets: [
-  //       {
-  //         label: "My First dataset",
-  //         fill: true,
-  //         backgroundColor: gradientStroke,
-  //         borderColor: border_color, //this changes
-  //         borderWidth: 2,
-  //         borderDash: [],
-  //         borderDashOffset: 0.0,
-  //         //Here on is point specific
-  //         pointBackgroundColor: "#1f8ef1",
-  //         pointBorderColor: "rgba(255,255,255,0)",
-  //         pointHoverBackgroundColor: "#1f8ef1",
-  //         pointBorderWidth: 20,
-  //         pointHoverRadius: 4,
-  //         pointHoverBorderWidth: 15,
-  //         pointRadius: 4,
-  //         data: dataX // pass in the data
-  //       }
-  //     ]
-  //   }
-  // }
   return data_fn
 }
