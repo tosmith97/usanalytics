@@ -51,7 +51,17 @@ class Dashboard extends React.Component {
 
   onDrop = (acceptedFiles, rejectedfiles) => {
     // fetch logic
-    console.log('lit, ', acceptedFiles)
+    const file = acceptedFiles[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      const fileAsText = reader.result;
+      // send csv via fetch here
+      console.log('even litter', fileAsText)
+
+    }
+    reader.onabort = () => console.log('file reading was aborted');
+    reader.onerror = () => console.log('file reading has failed');
+    reader.readAsText(file);
   }
 
   render() {
