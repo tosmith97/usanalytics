@@ -22,7 +22,7 @@
   "devDependencies": {},
   "scripts": {
     "test": "mocha",
-    "start": "node ./bin/www --trace-sync-io"
+    "start": "nodemon ./bin/www --trace-sync-io"
   },
   "author": "tosmith",
   "license": "ISC"
