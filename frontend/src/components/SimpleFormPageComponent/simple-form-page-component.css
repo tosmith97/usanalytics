@@ -1,0 +1,69 @@
+.simple-form-page-grid {
+  width: 100%;
+  padding: 0px;
+
+  flex-shrink: 0;
+}
+
+.simple-form-page-grid .row {
+  margin: 0;
+  flex: 1 0 auto;
+  position: relative;
+}
+
+.simple-form-page-container {
+  padding-top: 30px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-bottom: 60px;
+  background: rgba(237, 241, 248, 0.92);
+  border-radius: 5px;
+  text-align: center;
+  margin-top: 5vh;
+  margin-bottom: 15px;
+
+  position: relative;
+}
+
+.simple-form-page-container h1,
+.simple-form-page-container h2,
+.simple-form-page-container h3 {
+  margin-bottom: 20px;
+  color: #1a469b;
+  font-weight: bold;
+}
+
+.simple-form-page-container .row {
+  margin-top: 3px;
+}
+
+.simple-form-page-container .row div {
+  padding: 2px;
+}
+
+.simple-form-page-container .alert {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.simple-form-page-logo {
+  position: absolute;
+  max-width: 50%;
+  max-height: 50%;
+  right: 0;
+  z-index: -1;
+  bottom: 0;
+}
+
+.simple-form-page-hidden {
+  visibility: hidden;
+}
+
+.simple-form-page-loader {
+  position: absolute;
+  top: 20%;
+  left: 0;
+  right: 0;
+}
