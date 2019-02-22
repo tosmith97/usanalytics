@@ -23,7 +23,7 @@ export default class LoginView extends Component {
   }
 
   _onClick = () => {
-    this.props.history.push('admin/dashboard');
+    this.props.history.push('admin/workspace');
   }
 
 
@@ -36,16 +36,16 @@ export default class LoginView extends Component {
             { name: 'description', content: 'Description of LoginPage' },
           ]}
         />
-        <h2> Log In </h2>
+        <h2> California Analytics </h2>
         <Form onSubmit={this.login} className="login-form-container">
           <FormGroup row>
             <Col xs="12">
-              <Input type="email" name="mail" placeholder="Email" value={this.state.loginEmail} onChange={e => this.setState({ loginEmail: e.target.value })} />
+              <Input style={{color: "black" }} type="email" name="mail" placeholder="Email" value={this.state.loginEmail} onChange={e => this.setState({ loginEmail: e.target.value })} />
             </Col>
           </FormGroup>
           <FormGroup row>
             <Col xs="12">
-              <Input type="password" name="password" placeholder="Password" value={this.state.loginPassword} onChange={e => this.setState({ loginPassword: e.target.value })} />
+              <Input style={{color: "black"}} type="password" name="password" placeholder="Password" value={this.state.loginPassword} onChange={e => this.setState({ loginPassword: e.target.value })} />
             </Col>
           </FormGroup>
           <Row>
