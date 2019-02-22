@@ -1,5 +1,6 @@
 const fs = require('fs'); 
 const csv = require('csv-parser');
+const fastcsv = require('fast-csv');  
 const path = require('path');
 
 
@@ -187,33 +188,32 @@ exports.getCrimeRateDataForCalifornia = async function () {
 
 
 exports.handleCSVUpload=  async function (filepath) {
-    let err, results; 
-    [err, results] = await to(concatCSVAndOutput([filepath, recidivismData], recidivismData));
+    let err, _; 
+
+    [err, _] = await to(concatCSVAndOutput([filepath, recidivismData], recidivismData));
     if (err) TE(err);
 }
 
 // from https://stackoverflow.com/questions/50905202/how-to-merge-two-csv-files-rows-in-node-js
-concatCSVAndOutput = async function (csvFilePaths, outputFilePath) {
-    const promises = csvFilePaths.map((path) => {
-        return new Promise((resolve) => {
-            const dataArray = [];
-            return csv
-                .fromPath(path, {headers: true})
-                .on('data', function(data) {
-                dataArray.push(data);
-                })
-                .on('end', function() {
-                resolve(dataArray);
-                });
+concatCSVAndOutput = async function (csvFilePaths, outputFilePath) {    
+    try {
+        const promises = csvFilePaths.map((path) => {
+            return new Promise((resolve) => {
+                const dataArray = [];
+                return fs.createReadStream(path)
+                    .pipe(csv())
+                    .on('data', function(data) {
+                        if (data.COUNTY !== '') dataArray.push(data);
+                    })
+                    .on('end', function() {
+                    resolve(dataArray);
+                    });
+            });
         });
-    });
 
-    return Promise.all(promises)
-        .then((results) => {
-
-        const csvStream = csv.format({headers: true});
+        const results = await Promise.all(promises);
+        const csvStream = fastcsv.format({headers: true});        
         const writableStream = fs.createWriteStream(outputFilePath);
-
         writableStream.on('finish', function() {
             console.log('DONE!');
         });
@@ -225,6 +225,9 @@ concatCSVAndOutput = async function (csvFilePaths, outputFilePath) {
             });
         });
         csvStream.end();
-
-        });
+    }
+    catch(err) {
+        console.log(err);
+        TE(err);
+    }
 }

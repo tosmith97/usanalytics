@@ -45,6 +45,6 @@ router.post('/county/crime',           MainController.getCrimeRateDataForCountie
 router.get('/california/crime',           MainController.getCrimeRateDataForCalifornia);
 
 
-router.post('/file/upload',     upload.single('file'),          MainController.uploadFile);
+router.get('/file/upload',     upload.single('file'),          MainController.uploadFile);
 
 module.exports = router;

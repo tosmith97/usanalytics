@@ -1,5 +1,3 @@
-const csv = require('fast-csv');
-
 const dAService = require('../services/dataAnalysis');
 
 
@@ -56,6 +54,6 @@ exports.uploadFile = function (req, res) {
         })
     
     dAService.handleCSVUpload(req.file.path);
-    
+
     return ReS(res, 201);
 }
