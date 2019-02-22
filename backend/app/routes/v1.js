@@ -1,7 +1,16 @@
 const express 			= require('express');
 const router 			= express.Router();
 const multer = require('multer');
-const upload = multer({ dest: 'tmp/csv/' });
+// const upload = multer({ dest: 'tmp/csv/' });
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'tmp/csv/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '.csv') //Appending .jpg
+  }
+})
+const upload = multer({ storage: storage });
 
 const MainController 	= require('./../controllers/MainController');
 
@@ -45,6 +54,6 @@ router.post('/county/crime',           MainController.getCrimeRateDataForCountie
 router.get('/california/crime',           MainController.getCrimeRateDataForCalifornia);
 
 
-router.get('/file/upload',     upload.single('file'),          MainController.uploadFile);
+router.post('/file/upload',     upload.single('file'),          MainController.uploadFile);
 
 module.exports = router;
