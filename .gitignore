@@ -43,3 +43,4 @@ elastic-search.pem
 .ebextensions/
 
 .DS_Store
+package-lock.json
