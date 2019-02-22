@@ -1,8 +1,11 @@
-import React from "react";
+import React from 'react';
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // react plugin used to create charts
 import { Line, Bar } from "react-chartjs-2";
+
+import config from '../config';
+import Dropzone from 'react-dropzone';
 
 // reactstrap components
 import {
@@ -45,6 +48,22 @@ class Dashboard extends React.Component {
       bigChartData: name
     });
   };
+
+  onDrop = (acceptedFiles, rejectedfiles) => {
+    // fetch logic
+    const file = acceptedFiles[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      const fileAsText = reader.result;
+      // send csv via fetch here
+      console.log('even litter', fileAsText)
+
+    }
+    reader.onabort = () => console.log('file reading was aborted');
+    reader.onerror = () => console.log('file reading has failed');
+    reader.readAsText(file);
+  }
+
   render() {
     return (
       <>
@@ -63,7 +82,7 @@ class Dashboard extends React.Component {
                         className="btn-group-toggle float-right"
                         data-toggle="buttons"
                       >
-                        <Button
+                        {/* <Button
                           tag="label"
                           className={classNames("btn-simple", {
                             active: this.state.bigChartData === "data1"
@@ -85,8 +104,51 @@ class Dashboard extends React.Component {
                           <span className="d-block d-sm-none">
                             <i className="tim-icons icon-single-02" />
                           </span>
-                        </Button>
+                        </Button> */}
+
                         <Button
+                          tag="label"
+                          className={classNames("btn-simple", {
+                            active: this.state.bigChartData === "data1"
+                          })}
+                          color="info"
+                          id="0"
+                          size="sm"
+                          // onClick={() => this.setBgChartData("data1")}
+                        >
+                          <input
+                            defaultChecked
+                            className="d-none"
+                            name="options"
+                            type="radio"
+                          />
+                          <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
+                            Upload SF County Monthly Report
+                          </span>
+                          <span className="d-block d-sm-none">
+                            <i className="tim-icons icon-single-02" />
+                          </span>
+                          <Dropzone onDrop={this.onDrop}>
+                            {({getRootProps, getInputProps, isDragActive}) => {
+                              return (
+                                <div
+                                  {...getRootProps()}
+                                  className={classNames('dropzone', {'dropzone--isActive': isDragActive})}
+                                >
+                                
+                                      <input {...getInputProps()} />
+                                            {
+                                              isDragActive ?
+                                                <p>Drop files here...</p> :
+                                                <p>Try dropping some files here, or click to select files to upload.</p>
+                                            }
+
+                                </div>
+                              )
+                            }}
+                          </Dropzone>
+                        </Button>
+                        {/* <Button
                           color="info"
                           id="1"
                           size="sm"
@@ -129,7 +191,7 @@ class Dashboard extends React.Component {
                           <span className="d-block d-sm-none">
                             <i className="tim-icons icon-tap-02" />
                           </span>
-                        </Button>
+                        </Button> */}
                       </ButtonGroup>
                     </Col>
                   </Row>
