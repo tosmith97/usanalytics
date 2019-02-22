@@ -1,5 +1,8 @@
 const express 			= require('express');
 const router 			= express.Router();
+const multer = require('multer');
+const upload = multer({ dest: 'tmp/csv/' });
+
 const MainController 	= require('./../controllers/MainController');
 
 
@@ -25,9 +28,23 @@ router.post('/county/recidivism',           MainController.getRecidivismDataForC
 */
 router.get('/california/recidivism',           MainController.getRecidivismDataForCalifornia);
 
-
+/*
+  POST Request
+  localhost:8000/v1/county/crime
+  Sample request:
+    {
+	    "counties": ["Alameda", "Yolo"]
+    }
+*/ 
 router.post('/county/crime',           MainController.getCrimeRateDataForCounties);
+
+/*
+    GET Request
+    localhost:8000/v1/california/crime
+*/
 router.get('/california/crime',           MainController.getCrimeRateDataForCalifornia);
 
+
+router.post('/file/upload',     upload.single('file'),          MainController.uploadFile);
 
 module.exports = router;

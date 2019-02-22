@@ -7,7 +7,6 @@ console.log("Environment:", CONFIG.app)
 const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
-const passport = require('passport');
 const expressValidator = require('express-validator');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
