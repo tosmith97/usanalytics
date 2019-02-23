@@ -6,6 +6,8 @@ import { Line, Bar } from "react-chartjs-2";
 
 import config from '../config';
 import Dropzone from 'react-dropzone';
+import axios from 'axios'
+import {LineChart, BarChart} from "../ChartsComponents/ChartsWrapper.js"
 
 // reactstrap components
 import {
@@ -43,6 +45,8 @@ class Dashboard extends React.Component {
       bigChartData: "data1"
     };
   }
+
+
   setBgChartData = name => {
     this.setState({
       bigChartData: name
@@ -64,7 +68,26 @@ class Dashboard extends React.Component {
     reader.readAsText(file);
   }
 
+  async getCountyRecidivism(counties){
+    let options = {
+          method: 'POST',
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({"counties": counties})
+        }
+        let resp = await fetch(config['backend_url'] + '/county/recidivism', options);
+        let json =  await resp.json();
+        return json
+  }
+
+  async getYearlyCountyRecidivism(counties){
+    let result = await this.getCountyRecidivism(counties)
+      console.log(result)
+  }
+
   render() {
+    this.getYearlyCountyRecidivism(["Alameda"])
     return (
       <>
         <div className="content">
@@ -135,7 +158,7 @@ class Dashboard extends React.Component {
                                   {...getRootProps()}
                                   className={classNames('dropzone', {'dropzone--isActive': isDragActive})}
                                 >
-                                
+
                                       <input {...getInputProps()} />
                                             {
                                               isDragActive ?

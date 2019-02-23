@@ -4,8 +4,10 @@
   "private": true,
   "dependencies": {
     "@types/react": "^16.8.4",
+    "axios": "^0.18.0",
     "chart.js": "^2.7.3",
     "node-sass": "^4.11.0",
+    "package.json": "^2.0.1",
     "perfect-scrollbar": "^1.4.0",
     "react": "^16.8.3",
     "react-chartjs-2": "^2.7.4",
@@ -16,7 +18,7 @@
     "react-notification-alert": "0.0.9",
     "react-router-dom": "^4.3.1",
     "react-router-hash-link": "^1.2.1",
-    "react-scripts": "2.1.5",
+    "react-scripts": "^2.1.5",
     "react-spinners": "^0.5.1",
     "reactstrap": "^7.1.0"
   },
