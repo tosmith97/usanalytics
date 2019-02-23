@@ -6,11 +6,12 @@ import { Line, Bar } from "react-chartjs-2";
 
 import config from '../config';
 import Dropzone from 'react-dropzone';
-import axios from 'axios'
 import {LineChart, BarChart, DoubleBarChart} from "../ChartsComponents/ChartsWrapper.js"
+import { getYearlyCountyRecidivism } from '../helpers';
 
 // reactstrap components
 import {
+  Alert,
   Button,
   ButtonGroup,
   Card,
@@ -43,11 +44,13 @@ class Dashboard extends React.Component {
     super(props);
     this.state = {
       bigChartData: "data1",
+      recidivismOverLastYearX: null,
+      recidivismOverLastYearY: null
     };
   }
 
   componentDidMount() {
-    this.
+    this.getAggregateData(["Tulare"]);
   }
 
 
@@ -60,34 +63,28 @@ class Dashboard extends React.Component {
   onDrop = (acceptedFiles, rejectedfiles) => {
     // fetch logic
     const file = acceptedFiles[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-      const fileAsText = reader.result;
-      // send csv via fetch here
-      console.log('even litter', fileAsText)
 
-    }
-    reader.onabort = () => console.log('file reading was aborted');
-    reader.onerror = () => console.log('file reading has failed');
-    reader.readAsText(file);
-  }
-
-  async getCountyRecidivism(counties){
+    // send csv via fetch here
+    let formData = new FormData();
+    formData.append('file', file);
     let options = {
-          method: 'POST',
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({"counties": counties})
-        }
-        let resp = await fetch(config['backend_url'] + '/county/recidivism', options);
-        let json =  await resp.json();
-        return json
+      method: 'POST',
+      body: formData
+    }
+
+    fetch(config['backend_url'] + '/file/upload', options)
+    .then(resp => resp.json())
+    .then(result => {
+      console.log(result);
+      this.getAggregateData(["Tulare"]);
+      alert(result.message);
+      })
   }
 
-  async getYearlyCountyRecidivism(counties){
-    let result = await this.getCountyRecidivism(counties)
-      console.log(result)
+  // NOTE: this expects counties.length = 1 bc this is a hackathon and I'm bad
+  async getAggregateData(counties) {
+      const { recidivismOverLastYearX, recidivismOverLastYearY } = await getYearlyCountyRecidivism(counties);
+      this.setState({ recidivismOverLastYearX, recidivismOverLastYearY });
   }
 
 
@@ -138,6 +135,7 @@ class Dashboard extends React.Component {
 
   render() {
     this.createCrimeRateGraphData(["Alameda"])
+
     return (
       <>
         <div className="content">
@@ -147,8 +145,8 @@ class Dashboard extends React.Component {
                 <CardHeader>
                   <Row>
                     <Col className="text-left" sm="6">
-                      <h5 className="card-category">Total Shipments</h5>
-                      <CardTitle tag="h2">Performance</CardTitle>
+                      <h5 className="card-category">Aggregated by month</h5>
+                      <CardTitle tag="h2">Number of Recidivists</CardTitle>
                     </Col>
                     <Col sm="6">
                       <ButtonGroup
@@ -271,9 +269,13 @@ class Dashboard extends React.Component {
                 </CardHeader>
                 <CardBody>
                   <div className="chart-area">
-                    <Line
+                    {/* <Line
                       data={chartExample1[this.state.bigChartData]}
                       options={chartExample1.options}
+                    /> */}
+                    <LineChart
+                      dataX={this.state.recidivismOverLastYearX}
+                      dataY={this.state.recidivismOverLastYearY}
                     />
                   </div>
                 </CardBody>
