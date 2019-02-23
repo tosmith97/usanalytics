@@ -26,7 +26,7 @@ export function DataWrapper(dataX, dataY, color) {
       labels: dataX,
       datasets: [
         {
-          label: "My First dataset",
+          label: "Yearly Aggregate",
           fill: true,
           backgroundColor: gradientStroke,
           borderColor: border_color,
@@ -52,7 +52,7 @@ export function DataWrapper(dataX, dataY, color) {
 
 
 
-export function DoubleDataWrapper(dataX, dataY, dataCali, color) {
+export function DoubleDataWrapper(dataX, dataY, dataCali, color, county) {
   let line_color = null;
   let border_color = null;
   if (color == "green") {
@@ -84,7 +84,7 @@ export function DoubleDataWrapper(dataX, dataY, dataCali, color) {
       labels: dataX,
       datasets: [
         {
-          label: "My First dataset",
+          label: county,
           fill: true,
           backgroundColor: gradientStrokeCali,
           borderColor: border_color,
@@ -94,7 +94,7 @@ export function DoubleDataWrapper(dataX, dataY, dataCali, color) {
           data: dataY
         },
         {
-          label: "California dataset",
+          label: "California",
           fill: true,
           backgroundColor: gradientStrokeCali,
           borderColor: "#FFFF00",

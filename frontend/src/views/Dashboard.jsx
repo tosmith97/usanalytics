@@ -348,7 +348,7 @@ class Dashboard extends React.Component {
                     Crime Rate Compared to CA Average in 2018
                   </CardTitle>
                 </CardHeader>
-                <DoubleBarChart color="green" dataX={this.state.crimeRateX} dataY={this.state.crimeRateY} dataCali={this.state.crimeRateCali} />
+                <DoubleBarChart color="green" dataX={this.state.crimeRateX} dataY={this.state.crimeRateY} dataCali={this.state.crimeRateCali} county={this.props.countyName}/>
               </Card>
             </Col>
           </Row>

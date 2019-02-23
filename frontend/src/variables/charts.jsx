@@ -83,7 +83,7 @@ let chartExample1 = {
       ],
       datasets: [
         {
-          label: "My First dataset",
+          label: "Monthly Aggregate",
           fill: true,
           backgroundColor: gradientStroke,
           borderColor: "#1f8ef1",
@@ -128,7 +128,7 @@ let chartExample1 = {
       ],
       datasets: [
         {
-          label: "My First dataset",
+          label: "Monthly Aggregate",
           fill: true,
           backgroundColor: gradientStroke,
           borderColor: "#1f8ef1",
@@ -173,7 +173,7 @@ let chartExample1 = {
       ],
       datasets: [
         {
-          label: "My First dataset",
+          label: "Monthly Aggregate",
           fill: true,
           backgroundColor: gradientStroke,
           borderColor: "#1f8ef1",
@@ -330,7 +330,7 @@ const chartExample4 = {
       labels: ["JUL", "AUG", "SEP", "OCT", "NOV"],
       datasets: [
         {
-          label: "My First dataset",
+          label: "Monthly Aggregate",
           fill: true,
           backgroundColor: gradientStroke,
           borderColor: "#00d6b4",

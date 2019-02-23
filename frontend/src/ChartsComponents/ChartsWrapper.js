@@ -74,7 +74,7 @@ class DoubleBarChart extends React.Component {
       <CardBody>
         <div className="chart-area">
           <Bar
-            data={DoubleDataWrapper(this.props.dataX, this.props.dataY, this.props.dataCali, this.props.color)}
+            data={DoubleDataWrapper(this.props.dataX, this.props.dataY, this.props.dataCali, this.props.color, this.props.county)}
             options={GetGraphOptions("bar", this.props.color )}
           />
         </div>
