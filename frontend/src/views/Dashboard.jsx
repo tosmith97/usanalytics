@@ -94,7 +94,7 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    var uploaderMarkup = this.props.countyName !== 'SF' ? '' 
+    var uploaderMarkup = this.props.countyName !== 'Tulare' ? '' 
     : <Button
       tag="label"
       className={classNames("btn-simple", {
