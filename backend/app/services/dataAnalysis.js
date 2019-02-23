@@ -187,7 +187,7 @@ exports.getCrimeRateDataForCalifornia = async function () {
 }
 
 
-exports.handleCSVUpload=  async function (filepath) {
+exports.handleCSVUpload = async function (filepath) {
     let err, _; 
 
     [err, _] = await to(concatCSVAndOutput([filepath, recidivismData], recidivismData));
