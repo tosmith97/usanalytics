@@ -205,7 +205,7 @@ class Dashboard extends React.Component {
     reentryProgramsDict[this.props.countyName].forEach((info) => {
       var programMarkup = <tr>
       <td style={{cursor: "pointer"}}>{info[0]}</td>
-      <td>{info[1]}</td>
+      <td><a style={{color:"white" }}href="https://thelastmile.org/">{info[1]}</a></td>
     </tr>
       reentryProgramMarkup.push(programMarkup)
     })

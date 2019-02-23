@@ -26,7 +26,7 @@ export function DataWrapper(dataX, dataY, color) {
       labels: dataX,
       datasets: [
         {
-          label: "Yearly Aggregate",
+          label: "Monthly Aggregate",
           fill: true,
           backgroundColor: gradientStroke,
           borderColor: border_color,
