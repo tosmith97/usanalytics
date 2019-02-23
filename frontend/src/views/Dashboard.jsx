@@ -11,6 +11,7 @@ import {LineChart, BarChart} from "../ChartsComponents/ChartsWrapper.js"
 
 // reactstrap components
 import {
+  Alert,
   Button,
   ButtonGroup,
   Card,
@@ -42,7 +43,8 @@ class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      bigChartData: "data1"
+      bigChartData: "data1",
+      
     };
   }
 
@@ -56,16 +58,21 @@ class Dashboard extends React.Component {
   onDrop = (acceptedFiles, rejectedfiles) => {
     // fetch logic
     const file = acceptedFiles[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-      const fileAsText = reader.result;
-      // send csv via fetch here
-      console.log('even litter', fileAsText)
 
+    // send csv via fetch here
+    let formData = new FormData();
+    formData.append('file', file);
+    let options = {
+      method: 'POST',
+      body: formData
     }
-    reader.onabort = () => console.log('file reading was aborted');
-    reader.onerror = () => console.log('file reading has failed');
-    reader.readAsText(file);
+
+    fetch(config['backend_url'] + '/file/upload', options)
+    .then(resp => resp.json())
+    .then(result => {
+      console.log(result);
+      alert(result.message);
+      })
   }
 
   async getCountyRecidivism(counties){
