@@ -6,8 +6,8 @@ import { Line, Bar } from "react-chartjs-2";
 
 import config from '../config';
 import Dropzone from 'react-dropzone';
-import axios from 'axios'
 import {LineChart, BarChart} from "../ChartsComponents/ChartsWrapper.js"
+import { getYearlyCountyRecidivism } from '../helpers';
 
 // reactstrap components
 import {
@@ -44,8 +44,13 @@ class Dashboard extends React.Component {
     super(props);
     this.state = {
       bigChartData: "data1",
-      
+      recidivismOverLastYearX: null,
+      recidivismOverLastYearY: null
     };
+  }
+
+  componentDidMount() {
+    this.getAggregateData(["Tulare"]);
   }
 
 
@@ -71,30 +76,18 @@ class Dashboard extends React.Component {
     .then(resp => resp.json())
     .then(result => {
       console.log(result);
+      this.getAggregateData(["Tulare"]);
       alert(result.message);
       })
   }
 
-  async getCountyRecidivism(counties){
-    let options = {
-          method: 'POST',
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({"counties": counties})
-        }
-        let resp = await fetch(config['backend_url'] + '/county/recidivism', options);
-        let json =  await resp.json();
-        return json
-  }
-
-  async getYearlyCountyRecidivism(counties){
-    let result = await this.getCountyRecidivism(counties)
-      console.log(result)
+  // NOTE: this expects counties.length = 1 bc this is a hackathon and I'm bad
+  async getAggregateData(counties) {
+      const { recidivismOverLastYearX, recidivismOverLastYearY } = await getYearlyCountyRecidivism(counties);
+      this.setState({ recidivismOverLastYearX, recidivismOverLastYearY });
   }
 
   render() {
-    this.getYearlyCountyRecidivism(["Alameda"])
     return (
       <>
         <div className="content">
@@ -228,9 +221,13 @@ class Dashboard extends React.Component {
                 </CardHeader>
                 <CardBody>
                   <div className="chart-area">
-                    <Line
+                    {/* <Line
                       data={chartExample1[this.state.bigChartData]}
                       options={chartExample1.options}
+                    /> */}
+                    <LineChart
+                      dataX={this.state.recidivismOverLastYearX}
+                      dataY={this.state.recidivismOverLastYearY}
                     />
                   </div>
                 </CardBody>
