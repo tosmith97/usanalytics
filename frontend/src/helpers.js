@@ -75,6 +75,7 @@ async function getCountyRecidivism (counties) {
     // NOTE: this expects counties.length = 1 bc this is a hackathon and I'm bad
 export async function getYearlyCountyRecidivism(counties){
     let resp = await getCountyRecidivism(counties);
+    console.log(resp)
     // need aggregates from each month in last year
     for (let c of counties) {
         let agg = []
@@ -96,6 +97,7 @@ export async function getYearlyCountyRecidivism(counties){
 
         let oldAgg = [];
         const lastYear = config.CURRENT_YEAR - 1
+
         Object.keys(county[lastYear]).forEach((month) => {
         if (county[lastYear][month]['Aggregate']) {
 
@@ -166,7 +168,6 @@ export async function getCountyRecidivismByType(counties){
 
       let labelsX = ["1170h", "PRCS", "Parolees"]
       let dataY = [h, prcs, parole]
-      console.log(dataY)
 
       return [labelsX, dataY];
   }

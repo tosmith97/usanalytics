@@ -44,11 +44,13 @@ class Dashboard extends React.Component {
     super(props);
     this.state = {
       bigChartData: "data1",
-      recidivismOverLastYearX: null,
-      recidivismOverLastYearY: null,
+      recidivismOverLastYearX: [],
+      recidivismOverLastYearY: [],
       crimeRateX: [],
       crimeRateY: [],
       crimeRateCali: [],
+      crimeTypeX: [],
+      crimeTypeY: [],
     };
   }
 
@@ -96,13 +98,11 @@ class Dashboard extends React.Component {
 
   async getCrimeType(counties){
     var counts = await getCountyRecidivismByType(counties)
-    const h = counts[0]
-    const prcs = counts[1]
-    const parole = counts[2]
+    const crimeTypeX = counts[0]
+    const crimeTypeY = counts[1]
     this.setState({
-      h: h,
-      prcs: prcs,
-      parole: parole,
+      crimeTypeX: crimeTypeX,
+      crimeTypeY: crimeTypeY,
     });
   }
 
@@ -271,23 +271,15 @@ class Dashboard extends React.Component {
             </Col>
           </Row>
           <Row>
-            <Col lg="4">
+            <Col lg="6">
               <Card className="card-chart">
                 <CardHeader>
-                  <h5 className="card-category">Total Shipments</h5>
+                  <h5 className="card-category"></h5>
                   <CardTitle tag="h3">
-                    <i className="tim-icons icon-bell-55 text-info" />{" "}
-                    763,215
+                    Recidivism By Offense Type
                   </CardTitle>
                 </CardHeader>
-                <CardBody>
-                  <div className="chart-area">
-                    <Line
-                      data={chartExample2.data}
-                      options={chartExample2.options}
-                    />
-                  </div>
-                </CardBody>
+                <BarChart color="green" dataX={this.state.crimeTypeX} dataY={this.state.crimeTypeY} />
               </Card>
             </Col>
             <Col lg="6">
@@ -299,24 +291,6 @@ class Dashboard extends React.Component {
                   </CardTitle>
                 </CardHeader>
                 <DoubleBarChart color="green" dataX={this.state.crimeRateX} dataY={this.state.crimeRateY} dataCali={this.state.crimeRateCali} />
-              </Card>
-            </Col>
-            <Col lg="4">
-              <Card className="card-chart">
-                <CardHeader>
-                  <h5 className="card-category">Completed Tasks</h5>
-                  <CardTitle tag="h3">
-                    <i className="tim-icons icon-send text-success" /> 12,100K
-                  </CardTitle>
-                </CardHeader>
-                <CardBody>
-                  <div className="chart-area">
-                    <Line
-                      data={chartExample4.data}
-                      options={chartExample4.options}
-                    />
-                  </div>
-                </CardBody>
               </Card>
             </Col>
           </Row>
