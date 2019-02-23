@@ -41,21 +41,21 @@ import {
 } from "../variables/charts.jsx";
 
 const similarCountiesDict = {
-  'SF': ['Tulare', 'Stanislaus', 'Yolo'],
-  'Tulare': ['Stanislaus', 'SF', 'Yolo'],
-  'Stanislaus': ['Tulare', 'SF', 'Yolo'],
-  'Yolo': ['Tulare', 'SF', 'Stanislaus']
+  'San Francisco': ['Tulare', 'Stanislaus', 'Yolo'],
+  'Tulare': ['Stanislaus', 'San Francisco', 'Yolo'],
+  'Stanislaus': ['Tulare', 'San Francisco', 'Yolo'],
+  'Yolo': ['Tulare', 'San Francisco', 'Stanislaus']
 }
 
 const populationsDict = {
-  'SF': '884,363',
+  'San Francisco': '884,363',
   'Tulare': '63,855',
   'Stanislaus': '547,899',
   'Yolo': '219,116'
 }
 
 const reentryProgramsDict = {
-  'SF': [['Housing Help', 'https://betterhousing.org'], ['Job Resume Training', 'https://greatresumes.org']],
+  'San Francisco': [['Housing Help', 'https://betterhousing.org'], ['Job Resume Training', 'https://greatresumes.org']],
   'Tulare': [['Housing Help', 'https://betterhousing.org'], ['Drug Abuse Treatment Program', 'https://greatresumes.org']],
   'Stanislaus': [['The Last Mile: Computer Technical Education', 'https://thelastmile.org/'], ['Food Assistance Programs', 'https://LAFood.org'], ['Job Resume Training', 'https://greatresumes.org'], ['Parole Appointment Flexibility', 'https://flexibleparole.org']],
   'Yolo': [['Housing Help', 'https://betterhousing.org'], ['Job Resume Training', 'https://greatresumes.org'], ['Job Resume Training', 'https://greatresumes.org']]

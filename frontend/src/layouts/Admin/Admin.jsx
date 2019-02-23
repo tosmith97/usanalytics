@@ -112,7 +112,7 @@ class Admin extends React.Component {
             routes={routes}
             bgColor={this.state.backgroundColor}
             logo={{
-              outterLink: "https://sfgov.org/",
+              outterLink: "https://tularecounty.ca.gov/county/",
               text: "Tulare Gov",
               imgSrc: logo
             }}

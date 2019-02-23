@@ -94,15 +94,6 @@ class FixedPlugin extends Component {
               >
                 Download Now
               </Button>
-              <Button
-                color="default"
-                block
-                className="btn-round"
-                outline
-                href="https://demos.creative-tim.com/black-dashboard-react/#/documentation/tutorial"
-              >
-                Documentation
-              </Button>
             </li>
             <li className="header-title">Want more components?</li>
             <li className="button-container">

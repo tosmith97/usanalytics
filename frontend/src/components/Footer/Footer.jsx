@@ -13,7 +13,7 @@ class Footer extends React.Component {
         <Container fluid>
           <Nav>
             <NavItem>
-              <NavLink href="javascript:void(0)">SF Gov</NavLink>
+              <NavLink href="javascript:void(0)">Tulare Gov</NavLink>
             </NavItem>
             <NavItem>
               <NavLink href="javascript:void(0)">About Us</NavLink>

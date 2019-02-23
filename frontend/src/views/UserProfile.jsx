@@ -160,7 +160,7 @@ class UserProfile extends React.Component {
                         className="avatar"
                         src={require("../assets/img/tulare-logo.png")}
                       />
-                      <h5 className="title">SF Gov</h5>
+                      <h5 className="title">Tulare Gov</h5>
                     </a>
                     {/* <p className="description">Ceo/Co-Founder</p> */}
                   </div>

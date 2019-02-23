@@ -17,7 +17,7 @@ export default class LoginView extends Component {
     super(props);
 
     this.state = {
-      loginEmail: 'admin@sfgov.org',
+      loginEmail: 'admin@tularecounty.ca.gov',
       loginPassword: 'password',
     }
   }
