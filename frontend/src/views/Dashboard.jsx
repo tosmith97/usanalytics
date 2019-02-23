@@ -22,6 +22,7 @@ import {
   DropdownMenu,
   DropdownItem,
   UncontrolledDropdown,
+  NavbarBrand,
   Label,
   FormGroup,
   Input,
@@ -38,6 +39,27 @@ import {
   chartExample3,
   chartExample4
 } from "../variables/charts.jsx";
+
+const similarCountiesDict = {
+  'SF': ['Tulare', 'Stanislaus', 'Yolo'],
+  'Tulare': ['Stanislaus', 'SF', 'Yolo'],
+  'Stanislaus': ['Tulare', 'SF', 'Yolo'],
+  'Yolo': ['Tulare', 'SF', 'Stanislaus']
+}
+
+const populationsDict = {
+  'SF': '884,363',
+  'Tulare': '63,855',
+  'Stanislaus': '547,899',
+  'Yolo': '219,116'
+}
+
+const reentryProgramsDict = {
+  'SF': [['Housing Help', 'https://betterhousing.org'], ['Job Resume Training', 'https://greatresumes.org']],
+  'Tulare': [['Housing Help', 'https://betterhousing.org'], ['Drug Abuse Treatment Program', 'https://greatresumes.org']],
+  'Stanislaus': [['The Last Mile: Computer Technical Education', 'https://thelastmile.org/'], ['Food Assistance Programs', 'https://LAFood.org'], ['Job Resume Training', 'https://greatresumes.org'], ['Parole Appointment Flexibility', 'https://flexibleparole.org']],
+  'Yolo': [['Housing Help', 'https://betterhousing.org'], ['Job Resume Training', 'https://greatresumes.org'], ['Job Resume Training', 'https://greatresumes.org']]
+}
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -123,10 +145,77 @@ class Dashboard extends React.Component {
 
 
   render() {
+    var uploaderMarkup = this.props.countyName !== 'Tulare' ? '' 
+    : <Button
+      tag="label"
+      className={classNames("btn-simple", {
+        active: this.state.bigChartData === "data1"
+      })}
+      color="info"
+      id="0"
+      size="sm"
+      // onClick={() => this.setBgChartData("data1")}
+    >
+      <input
+        defaultChecked
+        className="d-none"
+        name="options"
+        type="radio"
+      />
+      <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
+        Upload {this.props.countyName} County Monthly Report
+      </span>
+      <span className="d-block d-sm-none">
+        <i className="tim-icons icon-single-02" />
+      </span>
+      <Dropzone onDrop={this.onDrop}>
+        {({getRootProps, getInputProps, isDragActive}) => {
+          return (
+            <div
+              {...getRootProps()}
+              className={classNames('dropzone', {'dropzone--isActive': isDragActive})}
+            >
+            
+                  <input {...getInputProps()} />
+                        {
+                          isDragActive ?
+                            <p>Drop files here...</p> :
+                            <p>Try dropping some files here, or click to select files to upload.</p>
+                        }
 
+            </div>
+          )
+        }}
+      </Dropzone>
+    </Button>
+    
+    var reentryProgramMarkup = []
+    
+    reentryProgramsDict[this.props.countyName].forEach((info) => {
+      var programMarkup = <tr>
+      <td style={{cursor: "pointer"}}>{info[0]}</td>
+      <td>{info[1]}</td>
+    </tr>
+      reentryProgramMarkup.push(programMarkup)
+    })
+
+    var countiesSimilarMarkup = []
+
+    similarCountiesDict[this.props.countyName].forEach((county, index) => {
+      console.log('this is index', index)
+      var rate = index % 2 === 0 ? "30%" : "25%"
+      var countyMarkup = <tr>
+      <td style={{cursor: "pointer"}} onClick={() => this.props.changeCountyName(county)}>{county} County</td>
+      <td>{populationsDict[county]}</td>
+      <td>{rate}</td>
+    </tr>
+    countiesSimilarMarkup.push(countyMarkup)
+    })
+    
     return (
-      <>
+      // <>
         <div className="content">
+            <div style={{marginTop: '-51px', paddingBottom: '30px', color: 'white'}}>Viewing Analytics for {this.props.countyName} County</div>
           <Row>
             <Col xs="12">
               <Card className="card-chart">
@@ -165,48 +254,7 @@ class Dashboard extends React.Component {
                           </span>
                         </Button> */}
 
-                        <Button
-                          tag="label"
-                          className={classNames("btn-simple", {
-                            active: this.state.bigChartData === "data1"
-                          })}
-                          color="info"
-                          id="0"
-                          size="sm"
-                          // onClick={() => this.setBgChartData("data1")}
-                        >
-                          <input
-                            defaultChecked
-                            className="d-none"
-                            name="options"
-                            type="radio"
-                          />
-                          <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
-                            Upload SF County Monthly Report
-                          </span>
-                          <span className="d-block d-sm-none">
-                            <i className="tim-icons icon-single-02" />
-                          </span>
-                          <Dropzone onDrop={this.onDrop}>
-                            {({getRootProps, getInputProps, isDragActive}) => {
-                              return (
-                                <div
-                                  {...getRootProps()}
-                                  className={classNames('dropzone', {'dropzone--isActive': isDragActive})}
-                                >
-
-                                      <input {...getInputProps()} />
-                                            {
-                                              isDragActive ?
-                                                <p>Drop files here...</p> :
-                                                <p>Try dropping some files here, or click to select files to upload.</p>
-                                            }
-
-                                </div>
-                              )
-                            }}
-                          </Dropzone>
-                        </Button>
+                        {uploaderMarkup}
                         {/* <Button
                           color="info"
                           id="1"
@@ -295,331 +343,71 @@ class Dashboard extends React.Component {
             </Col>
           </Row>
           <Row>
-            <Col lg="6" md="12">
-              <Card className="card-tasks">
-                <CardHeader>
-                  <h6 className="title d-inline">Tasks(5)</h6>
-                  <p className="card-category d-inline"> today</p>
-                  <UncontrolledDropdown>
-                    <DropdownToggle
-                      caret
-                      className="btn-icon"
-                      color="link"
-                      data-toggle="dropdown"
-                      type="button"
-                    >
-                      <i className="tim-icons icon-settings-gear-63" />
-                    </DropdownToggle>
-                    <DropdownMenu aria-labelledby="dropdownMenuLink" right>
-                      <DropdownItem
-                        href="#pablo"
-                        onClick={e => e.preventDefault()}
-                      >
-                        Action
-                      </DropdownItem>
-                      <DropdownItem
-                        href="#pablo"
-                        onClick={e => e.preventDefault()}
-                      >
-                        Another action
-                      </DropdownItem>
-                      <DropdownItem
-                        href="#pablo"
-                        onClick={e => e.preventDefault()}
-                      >
-                        Something else
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </UncontrolledDropdown>
-                </CardHeader>
-                <CardBody>
-                  <div className="table-full-width table-responsive">
-                    <Table>
-                      <tbody>
-                        <tr>
-                          <td>
-                            <FormGroup check>
-                              <Label check>
-                                <Input defaultValue="" type="checkbox" />
-                                <span className="form-check-sign">
-                                  <span className="check" />
-                                </span>
-                              </Label>
-                            </FormGroup>
-                          </td>
-                          <td>
-                            <p className="title">Update the Documentation</p>
-                            <p className="text-muted">
-                              Dwuamish Head, Seattle, WA 8:47 AM
-                            </p>
-                          </td>
-                          <td className="td-actions text-right">
-                            <Button
-                              color="link"
-                              id="tooltip636901683"
-                              title=""
-                              type="button"
-                            >
-                              <i className="tim-icons icon-pencil" />
-                            </Button>
-                            <UncontrolledTooltip
-                              delay={0}
-                              target="tooltip636901683"
-                              placement="right"
-                            >
-                              Edit Task
-                            </UncontrolledTooltip>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <FormGroup check>
-                              <Label check>
-                                <Input
-                                  defaultChecked
-                                  defaultValue=""
-                                  type="checkbox"
-                                />
-                                <span className="form-check-sign">
-                                  <span className="check" />
-                                </span>
-                              </Label>
-                            </FormGroup>
-                          </td>
-                          <td>
-                            <p className="title">GDPR Compliance</p>
-                            <p className="text-muted">
-                              The GDPR is a regulation that requires businesses
-                              to protect the personal data and privacy of Europe
-                              citizens for transactions that occur within EU
-                              member states.
-                            </p>
-                          </td>
-                          <td className="td-actions text-right">
-                            <Button
-                              color="link"
-                              id="tooltip457194718"
-                              title=""
-                              type="button"
-                            >
-                              <i className="tim-icons icon-pencil" />
-                            </Button>
-                            <UncontrolledTooltip
-                              delay={0}
-                              target="tooltip457194718"
-                              placement="right"
-                            >
-                              Edit Task
-                            </UncontrolledTooltip>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <FormGroup check>
-                              <Label check>
-                                <Input defaultValue="" type="checkbox" />
-                                <span className="form-check-sign">
-                                  <span className="check" />
-                                </span>
-                              </Label>
-                            </FormGroup>
-                          </td>
-                          <td>
-                            <p className="title">Solve the issues</p>
-                            <p className="text-muted">
-                              Fifty percent of all respondents said they would
-                              be more likely to shop at a company
-                            </p>
-                          </td>
-                          <td className="td-actions text-right">
-                            <Button
-                              color="link"
-                              id="tooltip362404923"
-                              title=""
-                              type="button"
-                            >
-                              <i className="tim-icons icon-pencil" />
-                            </Button>
-                            <UncontrolledTooltip
-                              delay={0}
-                              target="tooltip362404923"
-                              placement="right"
-                            >
-                              Edit Task
-                            </UncontrolledTooltip>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <FormGroup check>
-                              <Label check>
-                                <Input defaultValue="" type="checkbox" />
-                                <span className="form-check-sign">
-                                  <span className="check" />
-                                </span>
-                              </Label>
-                            </FormGroup>
-                          </td>
-                          <td>
-                            <p className="title">Release v2.0.0</p>
-                            <p className="text-muted">
-                              Ra Ave SW, Seattle, WA 98116, SUA 11:19 AM
-                            </p>
-                          </td>
-                          <td className="td-actions text-right">
-                            <Button
-                              color="link"
-                              id="tooltip818217463"
-                              title=""
-                              type="button"
-                            >
-                              <i className="tim-icons icon-pencil" />
-                            </Button>
-                            <UncontrolledTooltip
-                              delay={0}
-                              target="tooltip818217463"
-                              placement="right"
-                            >
-                              Edit Task
-                            </UncontrolledTooltip>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <FormGroup check>
-                              <Label check>
-                                <Input defaultValue="" type="checkbox" />
-                                <span className="form-check-sign">
-                                  <span className="check" />
-                                </span>
-                              </Label>
-                            </FormGroup>
-                          </td>
-                          <td>
-                            <p className="title">Export the processed files</p>
-                            <p className="text-muted">
-                              The report also shows that consumers will not
-                              easily forgive a company once a breach exposing
-                              their personal data occurs.
-                            </p>
-                          </td>
-                          <td className="td-actions text-right">
-                            <Button
-                              color="link"
-                              id="tooltip831835125"
-                              title=""
-                              type="button"
-                            >
-                              <i className="tim-icons icon-pencil" />
-                            </Button>
-                            <UncontrolledTooltip
-                              delay={0}
-                              target="tooltip831835125"
-                              placement="right"
-                            >
-                              Edit Task
-                            </UncontrolledTooltip>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <FormGroup check>
-                              <Label check>
-                                <Input defaultValue="" type="checkbox" />
-                                <span className="form-check-sign">
-                                  <span className="check" />
-                                </span>
-                              </Label>
-                            </FormGroup>
-                          </td>
-                          <td>
-                            <p className="title">Arival at export process</p>
-                            <p className="text-muted">
-                              Capitol Hill, Seattle, WA 12:34 AM
-                            </p>
-                          </td>
-                          <td className="td-actions text-right">
-                            <Button
-                              color="link"
-                              id="tooltip217595172"
-                              title=""
-                              type="button"
-                            >
-                              <i className="tim-icons icon-pencil" />
-                            </Button>
-                            <UncontrolledTooltip
-                              delay={0}
-                              target="tooltip217595172"
-                              placement="right"
-                            >
-                              Edit Task
-                            </UncontrolledTooltip>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </div>
-                </CardBody>
-              </Card>
-            </Col>
-            <Col lg="6" md="12">
+            <Col lg="12" md="12">
               <Card>
                 <CardHeader>
-                  <CardTitle tag="h4">Counties Similar to You</CardTitle>
+                  <CardTitle tag="h4">Reentry programs in {this.props.countyName} County</CardTitle>
                 </CardHeader>
                 <CardBody>
                   <Table className="tablesorter" responsive>
                     <thead className="text-primary">
                       <tr>
                         <th>Name</th>
-                        <th>Country</th>
-                        <th>City</th>
-                        <th className="text-center">Salary</th>
+                        <th>Link</th>
                       </tr>
                     </thead>
                     <tbody>
+                      {reentryProgramMarkup}
+                      {/* <tr>
+                        <td style={{cursor: "pointer"}} onClick={() => this.props.changeCountyName('Tulare')}>Tulare County</td>
+                        <td>Oud-Turnhout</td>
+                      </tr>
                       <tr>
-                        <td>Dakota Rice</td>
-                        <td>Niger</td>
+                        <td style={{cursor: "pointer"}} onClick={() => this.props.changeCountyName('Stanislaus')}>Los Angeles County</td>
+                        <td>Sinaai-Waas</td>
+                      </tr>
+                      <tr>
+                        <td style={{cursor: "pointer"}} onClick={() => this.props.changeCountyName('Yolo')}>Yolo County</td>
+                        <td>Baileux</td>
+                      </tr> */}
+                    </tbody>
+                  </Table>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+          <Row>
+            <Col lg="12" md="12">
+              <Card>
+                <CardHeader>
+                  <CardTitle tag="h4">Counties Similar to You Based on Recidivism Rate and Population</CardTitle>
+                </CardHeader>
+                <CardBody>
+                  <Table className="tablesorter" responsive>
+                    <thead className="text-primary">
+                      <tr>
+                        <th>Name</th>
+                        <th>Population</th>
+                        <th>Recidivism Rate</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {/* <tr>
+                        <td style={{cursor: "pointer"}} onClick={() => this.props.changeCountyName('Tulare')}>Tulare County</td>
                         <td>Oud-Turnhout</td>
                         <td className="text-center">$36,738</td>
                       </tr>
                       <tr>
-                        <td>Minerva Hooper</td>
-                        <td>Curaçao</td>
+                        <td style={{cursor: "pointer"}} onClick={() => this.props.changeCountyName('Stanislaus')}>Los Angeles County</td>
                         <td>Sinaai-Waas</td>
                         <td className="text-center">$23,789</td>
                       </tr>
                       <tr>
-                        <td>Sage Rodriguez</td>
-                        <td>Netherlands</td>
+                        <td style={{cursor: "pointer"}} onClick={() => this.props.changeCountyName('Yolo')}>Yolo County</td>
                         <td>Baileux</td>
                         <td className="text-center">$56,142</td>
-                      </tr>
-                      <tr>
-                        <td>Philip Chaney</td>
-                        <td>Korea, South</td>
-                        <td>Overland Park</td>
-                        <td className="text-center">$38,735</td>
-                      </tr>
-                      <tr>
-                        <td>Doris Greene</td>
-                        <td>Malawi</td>
-                        <td>Feldkirchen in Kärnten</td>
-                        <td className="text-center">$63,542</td>
-                      </tr>
-                      <tr>
-                        <td>Mason Porter</td>
-                        <td>Chile</td>
-                        <td>Gloucester</td>
-                        <td className="text-center">$78,615</td>
-                      </tr>
-                      <tr>
-                        <td>Jon Porter</td>
-                        <td>Portugal</td>
-                        <td>Gloucester</td>
-                        <td className="text-center">$98,615</td>
-                      </tr>
+                      </tr> */}
+                      {countiesSimilarMarkup}
                     </tbody>
                   </Table>
                 </CardBody>
@@ -627,7 +415,7 @@ class Dashboard extends React.Component {
             </Col>
           </Row>
         </div>
-      </>
+      // </>
     );
   }
 }
