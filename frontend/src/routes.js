@@ -3,7 +3,7 @@ import { Switch, Route, BrowserRouter} from 'react-router-dom';
 
 /* Component Imports */
 import LoginView from './LoginView/LoginView';
-import DashboardView from './DashboardView/DashboardView';
+// import DashboardView from './DashboardView/DashboardView';
 import ProfileView from './ProfileView/ProfileView';
 import AdminLayout from "./layouts/Admin/Admin.jsx";
 
@@ -26,17 +26,17 @@ var routes = [
     layout: "/admin"
   },
   {
-    path: "/user-profile",
-    name: "User Profile",
-    icon: "tim-icons icon-single-02",
-    component: UserProfile,
+    path: "/counties",
+    name: "All Counties",
+    icon: "tim-icons icon-puzzle-10",
+    component: TableList,
     layout: "/admin"
   },
   {
-    path: "/counties",
-    name: "County List",
-    icon: "tim-icons icon-puzzle-10",
-    component: TableList,
+    path: "/user-profile",
+    name: "Your Profile",
+    icon: "tim-icons icon-single-02",
+    component: UserProfile,
     layout: "/admin"
   },
 ];
@@ -46,7 +46,7 @@ export { routes };
 export default () => (
   <BrowserRouter>
     <Switch>
-      <Route path="/dashboard" component={DashboardView} />
+      {/* <Route path="/dashboard" component={DashboardView} /> */}
       {/* <Route path='/profile' component={ProfileView} /> */}
       <Route path='/admin' render={props => <AdminLayout {...props} />} />
       {/* this needs to be last */}

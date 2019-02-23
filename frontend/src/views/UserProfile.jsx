@@ -158,7 +158,7 @@ class UserProfile extends React.Component {
                       <img
                         alt="..."
                         className="avatar"
-                        src={require("../assets/img/sf-logo.png")}
+                        src={require("../assets/img/tulare-logo.png")}
                       />
                       <h5 className="title">SF Gov</h5>
                     </a>
