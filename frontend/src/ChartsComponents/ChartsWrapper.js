@@ -53,25 +53,15 @@ class BarChart extends React.Component {
   render() {
 
     return(
-      <Col lg={this.props.size}>
-        <Card className="card-chart">
-          <CardHeader>
-            <h5 className="card-category">{this.props.ylabel}</h5>
-            <CardTitle tag="h3">
-              <i className="tim-icons icon-bell-55 text-info" />{" "}
-              {this.props.title}
-            </CardTitle>
-          </CardHeader>
-          <CardBody>
-            <div className="chart-area">
-              <Bar
-                data={DataWrapper(this.props.dataX, this.props.dataY, this.props.color)}
-                options={GetGraphOptions("bar", this.props.color )}
-              />
-            </div>
-          </CardBody>
-        </Card>
-      </Col>
+      <CardBody>
+        <div className="chart-area">
+          <Bar
+            data={DataWrapper(this.props.dataX, this.props.dataY, this.props.color)}
+            options={GetGraphOptions("bar", this.props.color )}
+          />
+        </div>
+      </CardBody>
+
     )
   }
 }

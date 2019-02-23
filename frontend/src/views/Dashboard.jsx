@@ -7,7 +7,7 @@ import { Line, Bar } from "react-chartjs-2";
 import config from '../config';
 import Dropzone from 'react-dropzone';
 import {LineChart, BarChart, DoubleBarChart} from "../ChartsComponents/ChartsWrapper.js"
-import { getYearlyCountyRecidivism } from '../helpers';
+import { getYearlyCountyRecidivism, createCrimeRateGraphData, getCountyRecidivismByType } from '../helpers';
 
 // reactstrap components
 import {
@@ -45,12 +45,17 @@ class Dashboard extends React.Component {
     this.state = {
       bigChartData: "data1",
       recidivismOverLastYearX: null,
-      recidivismOverLastYearY: null
+      recidivismOverLastYearY: null,
+      crimeRateX: [],
+      crimeRateY: [],
+      crimeRateCali: [],
     };
   }
 
   componentDidMount() {
     this.getAggregateData(["Tulare"]);
+    this.getCrimeRateData(["Tulare"])
+    this.getCrimeType(["Tulare"])
   }
 
 
@@ -77,6 +82,8 @@ class Dashboard extends React.Component {
     .then(result => {
       console.log(result);
       this.getAggregateData(["Tulare"]);
+      this.getCrimeRateData(["Tulare"])
+      this.getCrimeType(["Tulare"])
       alert(result.message);
       })
   }
@@ -87,46 +94,28 @@ class Dashboard extends React.Component {
       this.setState({ recidivismOverLastYearX, recidivismOverLastYearY });
   }
 
-
-  async getCountyCrimeRate(counties){
-    let options = {
-          method: 'POST',
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({"counties": counties})
-        }
-        let resp = await fetch(config['backend_url'] + '/county/crime', options);
-        let json =  await resp.json();
-        return json
-  }
-
-  async getCaliCrimeRate(){
-    let options = {
-          method: 'GET',
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-        let resp = await fetch(config['backend_url'] + '/california/crime', options);
-        let json =  await resp.json();
-        return json
-  }
-
-  async createCrimeRateGraphData(counties){
-    let cali_data = await this.getCaliCrimeRate()
-    let county_data = await this.getCountyCrimeRate(["Tulare"])
-    console.log(county_data)
-    var keys = Object.keys(county_data.results[0])
-    var keys_filtered = keys.filter(function(value, index, arr){
-
-    return value != 'county';
-
+  async getCrimeType(counties){
+    var counts = await getCountyRecidivismByType(counties)
+    const h = counts[0]
+    const prcs = counts[1]
+    const parole = counts[2]
+    this.setState({
+      h: h,
+      prcs: prcs,
+      parole: parole,
     });
+  }
 
-
-
-
+  async getCrimeRateData(counties) {
+    var rates  = await createCrimeRateGraphData(counties)
+    const crimeRateX = rates[0]
+    const crimeRateY = rates[1]
+    const crimeRateCali = rates[2]
+    this.setState({
+      crimeRateX: crimeRateX,
+      crimeRateY: crimeRateY,
+      crimeRateCali: crimeRateCali
+    });
   }
 
 
@@ -134,7 +123,6 @@ class Dashboard extends React.Component {
 
 
   render() {
-    this.createCrimeRateGraphData(["Alameda"])
 
     return (
       <>
@@ -305,13 +293,12 @@ class Dashboard extends React.Component {
             <Col lg="6">
               <Card className="card-chart">
                 <CardHeader>
-                  <h5 className="card-category">Crime Rate</h5>
+                  <h5 className="card-category"></h5>
                   <CardTitle tag="h3">
-                    <i className="tim-icons icon-delivery-fast text-primary" />{" "}
-                    Compared to CA Average
+                    Crime Rate Compared to CA Average
                   </CardTitle>
                 </CardHeader>
-                <DoubleBarChart color="green" dataX={[1,2,3,4,5]} dataY={[10,20,30,40,50]} dataCali={[20,40,60,80,100]} />
+                <DoubleBarChart color="green" dataX={this.state.crimeRateX} dataY={this.state.crimeRateY} dataCali={this.state.crimeRateCali} />
               </Card>
             </Col>
             <Col lg="4">

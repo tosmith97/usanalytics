@@ -78,6 +78,5 @@ export function GetGraphOptions(type, color) {
     new_options["scales"]["yAxes"][0]["gridLines"]["color"] = line_color;
   }
 
-  console.log(new_options == base_options)
   return new_options
 }

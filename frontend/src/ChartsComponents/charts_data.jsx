@@ -86,7 +86,7 @@ export function DoubleDataWrapper(dataX, dataY, dataCali, color) {
         {
           label: "My First dataset",
           fill: true,
-          backgroundColor: gradientStroke,
+          backgroundColor: gradientStrokeCali,
           borderColor: border_color,
           borderWidth: 2,
           borderDash: [],
