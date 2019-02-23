@@ -65,6 +65,7 @@ class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      start: true,
       bigChartData: "data1",
       recidivismOverLastYearX: [],
       recidivismOverLastYearY: [],
@@ -77,9 +78,19 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount() {
-    this.getAggregateData(["Tulare"]);
-    this.getCrimeRateData(["Tulare"])
-    this.getCrimeType(["Tulare"])
+    this.getAggregateData([this.props.countyName]);
+    this.getCrimeRateData([this.props.countyName])
+    this.getCrimeType([this.props.countyName])
+  }
+
+  componentDidUpdate(){
+    if (this.state.start){
+
+      this.getAggregateData([this.props.countyName]);
+      this.getCrimeRateData([this.props.countyName])
+      this.getCrimeType([this.props.countyName])
+      this.setState({start:false})
+    }
   }
 
 
@@ -145,7 +156,7 @@ class Dashboard extends React.Component {
 
 
   render() {
-    var uploaderMarkup = this.props.countyName !== 'Tulare' ? '' 
+    var uploaderMarkup = this.props.countyName !== 'Tulare' ? ''
     : <Button
       tag="label"
       className={classNames("btn-simple", {
@@ -175,7 +186,7 @@ class Dashboard extends React.Component {
               {...getRootProps()}
               className={classNames('dropzone', {'dropzone--isActive': isDragActive})}
             >
-            
+
                   <input {...getInputProps()} />
                         {
                           isDragActive ?
@@ -188,9 +199,9 @@ class Dashboard extends React.Component {
         }}
       </Dropzone>
     </Button>
-    
+
     var reentryProgramMarkup = []
-    
+
     reentryProgramsDict[this.props.countyName].forEach((info) => {
       var programMarkup = <tr>
       <td style={{cursor: "pointer"}}>{info[0]}</td>
@@ -202,16 +213,15 @@ class Dashboard extends React.Component {
     var countiesSimilarMarkup = []
 
     similarCountiesDict[this.props.countyName].forEach((county, index) => {
-      console.log('this is index', index)
       var rate = index % 2 === 0 ? "30%" : "25%"
       var countyMarkup = <tr>
-      <td style={{cursor: "pointer"}} onClick={() => this.props.changeCountyName(county)}>{county} County</td>
+      <td style={{cursor: "pointer"}} onClick={() => {this.props.changeCountyName(county); this.setState({start: true})} }>{county} County</td>
       <td>{populationsDict[county]}</td>
       <td>{rate}</td>
     </tr>
     countiesSimilarMarkup.push(countyMarkup)
     })
-    
+
     return (
       // <>
         <div className="content">
@@ -222,8 +232,8 @@ class Dashboard extends React.Component {
                 <CardHeader>
                   <Row>
                     <Col className="text-left" sm="6">
-                      <h5 className="card-category">Aggregated by month</h5>
-                      <CardTitle tag="h2">Number of Recidivists</CardTitle>
+                      <h1 className="card-category">Aggregated by month</h1>
+                      <CardTitle tag="h2">Number of Recidivists (AB 109, 2018)  </CardTitle>
                     </Col>
                     <Col sm="6">
                       <ButtonGroup
@@ -324,7 +334,7 @@ class Dashboard extends React.Component {
                 <CardHeader>
                   <h5 className="card-category"></h5>
                   <CardTitle tag="h3">
-                    Recidivism By Offense Type
+                    Recidivism By Offense Type in 2018
                   </CardTitle>
                 </CardHeader>
                 <BarChart color="green" dataX={this.state.crimeTypeX} dataY={this.state.crimeTypeY} />
@@ -335,7 +345,7 @@ class Dashboard extends React.Component {
                 <CardHeader>
                   <h5 className="card-category"></h5>
                   <CardTitle tag="h3">
-                    Crime Rate Compared to CA Average
+                    Crime Rate Compared to CA Average in 2018
                   </CardTitle>
                 </CardHeader>
                 <DoubleBarChart color="green" dataX={this.state.crimeRateX} dataY={this.state.crimeRateY} dataCali={this.state.crimeRateCali} />
