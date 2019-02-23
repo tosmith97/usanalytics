@@ -7,7 +7,7 @@ import { Line, Bar } from "react-chartjs-2";
 import config from '../config';
 import Dropzone from 'react-dropzone';
 import axios from 'axios'
-import {LineChart, BarChart} from "../ChartsComponents/ChartsWrapper.js"
+import {LineChart, BarChart, DoubleBarChart} from "../ChartsComponents/ChartsWrapper.js"
 
 // reactstrap components
 import {
@@ -42,8 +42,12 @@ class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      bigChartData: "data1"
+      bigChartData: "data1",
     };
+  }
+
+  componentDidMount() {
+    this.
   }
 
 
@@ -86,8 +90,54 @@ class Dashboard extends React.Component {
       console.log(result)
   }
 
+
+  async getCountyCrimeRate(counties){
+    let options = {
+          method: 'POST',
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({"counties": counties})
+        }
+        let resp = await fetch(config['backend_url'] + '/county/crime', options);
+        let json =  await resp.json();
+        return json
+  }
+
+  async getCaliCrimeRate(){
+    let options = {
+          method: 'GET',
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+        let resp = await fetch(config['backend_url'] + '/california/crime', options);
+        let json =  await resp.json();
+        return json
+  }
+
+  async createCrimeRateGraphData(counties){
+    let cali_data = await this.getCaliCrimeRate()
+    let county_data = await this.getCountyCrimeRate(["Tulare"])
+    console.log(county_data)
+    var keys = Object.keys(county_data.results[0])
+    var keys_filtered = keys.filter(function(value, index, arr){
+
+    return value != 'county';
+
+    });
+
+
+
+
+  }
+
+
+
+
+
   render() {
-    this.getYearlyCountyRecidivism(["Alameda"])
+    this.createCrimeRateGraphData(["Alameda"])
     return (
       <>
         <div className="content">
@@ -250,23 +300,16 @@ class Dashboard extends React.Component {
                 </CardBody>
               </Card>
             </Col>
-            <Col lg="4">
+            <Col lg="6">
               <Card className="card-chart">
                 <CardHeader>
-                  <h5 className="card-category">Daily Sales</h5>
+                  <h5 className="card-category">Crime Rate</h5>
                   <CardTitle tag="h3">
                     <i className="tim-icons icon-delivery-fast text-primary" />{" "}
-                    3,500€
+                    Compared to CA Average
                   </CardTitle>
                 </CardHeader>
-                <CardBody>
-                  <div className="chart-area">
-                    <Bar
-                      data={chartExample3.data}
-                      options={chartExample3.options}
-                    />
-                  </div>
-                </CardBody>
+                <DoubleBarChart color="green" dataX={[1,2,3,4,5]} dataY={[10,20,30,40,50]} dataCali={[20,40,60,80,100]} />
               </Card>
             </Col>
             <Col lg="4">

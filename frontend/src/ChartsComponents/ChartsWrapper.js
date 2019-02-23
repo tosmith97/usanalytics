@@ -21,7 +21,7 @@ import {
 } from "reactstrap";
 
 import {GetGraphOptions} from "./charts_options.jsx"
-import {DataWrapper} from "./charts_data.jsx";
+import {DataWrapper, DoubleDataWrapper} from "./charts_data.jsx";
 
 // This should take in data
 
@@ -77,7 +77,21 @@ class BarChart extends React.Component {
 }
 
 
+class DoubleBarChart extends React.Component {
+  render() {
 
+    return(
+      <CardBody>
+        <div className="chart-area">
+          <Bar
+            data={DoubleDataWrapper(this.props.dataX, this.props.dataY, this.props.dataCali, this.props.color)}
+            options={GetGraphOptions("bar", this.props.color )}
+          />
+        </div>
+      </CardBody>
+    )
+  }
+}
 
 
 
@@ -85,4 +99,5 @@ class BarChart extends React.Component {
 export {
   LineChart,
   BarChart,
+  DoubleBarChart,
 }
