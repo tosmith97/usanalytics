@@ -96,7 +96,7 @@ class AdminNavbar extends React.Component {
                 {this.props.brandText}
               </NavbarBrand>
             </div>
-            <button
+            {/* <button
               aria-expanded={false}
               aria-label="Toggle navigation"
               className="navbar-toggler"
@@ -109,7 +109,7 @@ class AdminNavbar extends React.Component {
               <span className="navbar-toggler-bar navbar-kebab" />
               <span className="navbar-toggler-bar navbar-kebab" />
               <span className="navbar-toggler-bar navbar-kebab" />
-            </button>
+            </button> */}
             <Collapse navbar isOpen={this.state.collapseOpen}>
               <Nav className="ml-auto" navbar>
                 {/* <InputGroup className="search-bar">
@@ -124,8 +124,8 @@ class AdminNavbar extends React.Component {
                     <span className="d-lg-none d-md-block">Search</span>
                   </Button>
                 </InputGroup> */}
-                <UncontrolledDropdown nav>
-                  {/* <DropdownToggle
+                {/* <UncontrolledDropdown nav>
+                  <DropdownToggle
                     caret
                     color="default"
                     data-toggle="dropdown"
@@ -134,8 +134,8 @@ class AdminNavbar extends React.Component {
                     <div className="notification d-none d-lg-block d-xl-block" />
                     <i className="tim-icons icon-sound-wave" />
                     <p className="d-lg-none">Notifications</p>
-                  </DropdownToggle> */}
-                  {/* <DropdownMenu className="dropdown-navbar" right tag="ul">
+                  </DropdownToggle>
+                  <DropdownMenu className="dropdown-navbar" right tag="ul">
                     <NavLink tag="li">
                       <DropdownItem className="nav-item">
                         Mike John responded to your email
@@ -161,8 +161,8 @@ class AdminNavbar extends React.Component {
                         Another one
                       </DropdownItem>
                     </NavLink>
-                  </DropdownMenu> */}
-                </UncontrolledDropdown>
+                  </DropdownMenu>
+                </UncontrolledDropdown> */}
                 <UncontrolledDropdown nav>
                   <DropdownToggle
                     caret
@@ -172,7 +172,7 @@ class AdminNavbar extends React.Component {
                     onClick={e => e.preventDefault()}
                   >
                     <div className="photo">
-                      <img alt="..." src={require("../../assets/img/sf-logo.png")} />
+                      <img alt="..." src={require("../../assets/img/tulare-logo.png")} />
                     </div>
                     <b className="caret d-none d-lg-block d-xl-block" />
                     <p className="d-lg-none">Log out</p>

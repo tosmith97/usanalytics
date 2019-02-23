@@ -11,7 +11,8 @@ import FixedPlugin from "../../components/FixedPlugin/FixedPlugin.jsx";
 
 import { routes } from "../../routes.js";
 
-import logo from "../../assets/img/sf-logo.png";
+import logo from "../../assets/img/tulare-logo.png";
+import Dashboard from "../../views/Dashboard.jsx";
 var ps;
 
 class Admin extends React.Component {
@@ -19,8 +20,9 @@ class Admin extends React.Component {
     super(props);
     this.state = {
       backgroundColor: "blue",
+      countyName: "Tulare",
       sidebarOpened:
-        document.documentElement.className.indexOf("nav-open") !== -1
+        document.documentElement.className.indexOf("nav-open") !== -1,
     };
   }
   componentDidMount() {
@@ -59,16 +61,28 @@ class Admin extends React.Component {
     document.documentElement.classList.toggle("nav-open");
     this.setState({ sidebarOpened: !this.state.sidebarOpened });
   };
+  changeCountyName = (newCountyName) => {
+    this.setState({countyName: newCountyName})
+  }
   getRoutes = routes => {
     return routes.map((prop, key) => {
       if (prop.layout === "/admin") {
-        return (
-          <Route
-            path={prop.layout + prop.path}
-            component={prop.component}
-            key={key}
-          />
-        );
+        if(prop.component === Dashboard){
+          return (
+            <Route
+              path={prop.layout + prop.path}
+              render={(props) => <Dashboard {...props} countyName={this.state.countyName} changeCountyName={this.changeCountyName} />}
+            />
+          )
+        } else {
+          return (
+            <Route
+              path={prop.layout + prop.path}
+              component={prop.component}
+              key={key}
+            />
+          );
+        }
       } else {
         return null;
       }
@@ -99,7 +113,7 @@ class Admin extends React.Component {
             bgColor={this.state.backgroundColor}
             logo={{
               outterLink: "https://sfgov.org/",
-              text: "SF Gov",
+              text: "Tulare Gov",
               imgSrc: logo
             }}
             toggleSidebar={this.toggleSidebar}
@@ -114,6 +128,7 @@ class Admin extends React.Component {
               brandText={this.getBrandText(this.props.location.pathname)}
               toggleSidebar={this.toggleSidebar}
               sidebarOpened={this.state.sidebarOpened}
+              countyName={this.state.countyName}
             />
             <Switch>{this.getRoutes(routes)}</Switch>
             {// we don't want the Footer to be rendered on map page
